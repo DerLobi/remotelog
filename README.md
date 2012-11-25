@@ -10,7 +10,7 @@ In your node.js app, include the following code to start a remotelog-server that
 
 	var remote = require('./remotelog.js').createServer();
 	
-You can build a simple client by including the following code in your client HTML (this assumes your node.js app runs on the same machine and te remotelog-server uses the default port):
+You can build a simple web client by including the following code in your client HTML (this assumes your node.js app runs on the same machine and the remotelog-server uses the default port):
 
 	<script src="http://localhost:1807/socket.io/socket.io.js"></script>
 	<script>
@@ -20,3 +20,10 @@ You can build a simple client by including the following code in your client HTM
 		});
 	</script>
 
+Similarly, a node.js CLI-client would look like this:
+
+	var socket = require('socket.io-client').connect('http://localhost:1807');
+	socket.on('log', function (data) {
+	    console.log(data.message);
+	});
+	
