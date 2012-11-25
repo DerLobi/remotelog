@@ -1,0 +1,25 @@
+{
+    "name": "remotelog",
+    "version": "0.1.0",
+    "author": "Christian Lobach <christian.lobach@gmail.com>",
+    "description": "A way to view all your console.log's in node.js from a web browser or other client",
+    "main": "remotelog.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/christianlobach/remotelog.git"
+    },
+    "keywords": [
+        "remote",
+        "logging",
+        "hosting",
+        "websocket",
+        "socket.io"
+    ],
+    "dependencies": {
+        "socket.io": "0.9.x"
+    },
+    "license": "MIT",
+    "engines": {
+        "node": ">=0.6"
+    }
+}
