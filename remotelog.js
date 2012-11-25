@@ -23,47 +23,68 @@ var remotelog = {
     log: function() {
         var d = new Date();
         var t = d.getTime();
-        remotelog.socket.emit('log', {
-            type: 'log',
-            timestamp: t,
-            message: util.format.apply(this, arguments)
-        });
+
+        var clients = remotelog.io.sockets.clients();
+
+        for(var i = 0; i < clients.length; i++) {
+            clients[i].emit('log', {
+                type: 'log',
+                timestamp: t,
+                message: util.format.apply(this, arguments)
+            });
+        }
+
     },
 
     info: function() {
         var d = new Date();
         var t = d.getTime();
-        remotelog.socket.emit('info', {
-            type: 'info',
-            timestamp: t,
-            message: util.format.apply(this, arguments)
-        });
+        var clients = remotelog.io.sockets.clients();
+
+        for(var i = 0; i < clients.length; i++) {
+            clients[i].emit('info', {
+                type: 'info',
+                timestamp: t,
+                message: util.format.apply(this, arguments)
+            });
+        }
+
     },
 
     warn: function() {
         var d = new Date();
         var t = d.getTime();
-        remotelog.socket.emit('warn', {
-            type: 'warn',
-            timestamp: t,
-            message: util.format.apply(this, arguments)
-        });
+        var clients = remotelog.io.sockets.clients();
+
+        for(var i = 0; i < clients.length; i++) {
+            clients[i].emit('warn', {
+                type: 'warn',
+                timestamp: t,
+                message: util.format.apply(this, arguments)
+            });
+        }
+
     },
 
     error: function() {
         var d = new Date();
         var t = d.getTime();
-        remotelog.socket.emit('error', {
-            type: 'error',
-            timestamp: t,
-            message: util.format.apply(this, arguments)
-        });
+        var clients = remotelog.io.sockets.clients();
+
+        for(var i = 0; i < clients.length; i++) {
+            clients[i].emit('error', {
+                type: 'error',
+                timestamp: t,
+                message: util.format.apply(this, arguments)
+            });
+        }
+
     },
 
     // define console.log with new remote logging functionality
     // and keep old behaviour
     replaceOriginalFunctions: function() {
-        
+
         console.log = function() {
 
             remotelog._oldlog.apply(this, arguments);
@@ -109,12 +130,12 @@ var remotelog = {
         remotelog.io = require('socket.io').listen(remotelog._options.port);
         remotelog.io.set('log level', 0);
 
-        remotelog._oldlog("Server gestartet");
+        remotelog._oldlog("remotelog started");
+
         remotelog.io.sockets.on('connection', function(socket) {
             socket.emit('status', {
                 status: 'connected'
             });
-            remotelog.socket = socket;
 
             if(remotelog._options.replaceFunctions) {
                 remotelog.replaceOriginalFunctions();
@@ -123,13 +144,12 @@ var remotelog = {
         });
     }
 
-
 };
 
 module.exports = {
-    log : remotelog.log,
-    info : remotelog.info,
-    warn : remotelog.warn,
-    error : remotelog.error,
+    log: remotelog.log,
+    info: remotelog.info,
+    warn: remotelog.warn,
+    error: remotelog.error,
     createServer: remotelog.createServer
 }
