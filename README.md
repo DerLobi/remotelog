@@ -5,6 +5,14 @@
 
 remotelog uses socket.io to let you view the output of console.log via another web- or cli-client.
 
+## Installation
+You can install remotelog via npm:
+```bash
+cd /path/to/your/app
+npm install git://github.com/christianlobach/remotelog.git
+```
+
+
 ## Usage
 ### Server
 
