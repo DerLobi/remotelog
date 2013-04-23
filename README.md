@@ -18,7 +18,7 @@ npm install git://github.com/christianlobach/remotelog.git
 
 In your node.js app, include the following code to start a remotelog server that listens on the default port 1807:
 ```js
-var remote = require('./remotelog.js').createServer();
+var remote = require('remotelog').createServer();
 ``` 
 ### Client
     
@@ -44,7 +44,7 @@ socket.on('log', function (data) {
 ## Options
 When starting the remotelog server you can pass an object with options like this:
 ```js
-var remote = require('./remotelog.js').createServer({
+var remote = require('remotelog').createServer({
     "port":6543,
     "replaceFunctions": false
 });
@@ -57,7 +57,7 @@ By default starting the server substitutes all calls to `console.log`, so they c
 If you want to just transmit certain messages to a client, you have to set `replaceFunctions` to `false`. This way none of the messages supplied to `console.log` are transmitted. However, you can use the functionality of remotelog by calling `log()` on the remotelog object instead of `console`. Example:
 
 ```js
-var remote = require('./remotelog.js').createServer({"replaceFunctions":"false"});
+var remote = require('remotelog').createServer({"replaceFunctions":"false"});
 console.log("Lorem Ipsum"); // output only on the system where the app runs
 
 remote.log("dolor sit amet") // output on the system via console.log(), as well as on the connected client
